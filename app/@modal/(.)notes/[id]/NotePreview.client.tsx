@@ -1,6 +1,6 @@
 "use client";
 import ModalNote from "@/components/ModalNote/ModalNote";
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/clientApi";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
