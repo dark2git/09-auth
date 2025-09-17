@@ -2,7 +2,7 @@
 
 import css from "./SignUpPage.module.css";
 import { useState } from "react";
-import { ApiError } from "@/app/api/api";
+import type { AxiosError } from "axios";
 import { register } from "@/lib/api/clientApi";
 import { RegisterRequest } from "@/types/user";
 import { useRouter } from "next/navigation";
@@ -23,10 +23,11 @@ export default function SignUpPage() {
       } else {
         setError("Invalid email or password");
       }
-    } catch (error) {
+    } catch (err) {
+      const axiosErr = err as AxiosError<{ error?: string }>;
       setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
+        axiosErr.response?.data?.error ??
+          axiosErr.message ??
           "Oops... some error"
       );
     }
