@@ -5,7 +5,7 @@ import css from "./SignInPage.module.css";
 import { RegisterRequest } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ApiError } from "@/app/api/api";
+import type { AxiosError } from "axios";
 import { useSessionStore } from "@/lib/store/authStore";
 
 export default function SignInPage() {
@@ -23,10 +23,11 @@ export default function SignInPage() {
       } else {
         setError("Invalid email or password");
       }
-    } catch (error) {
+    } catch (err) {
+      const axiosErr = err as AxiosError<{ error?: string }>;
       setError(
-        (error as ApiError).response?.data?.error ??
-          (error as ApiError).message ??
+        axiosErr.response?.data?.error ??
+          axiosErr.message ??
           "Oops... some error"
       );
     }
